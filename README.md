@@ -7,7 +7,7 @@
 ---
 
 ## 🚀 Key Features
-
+ 
 * **User Authentication**: Secure signup, login, and session management.
 * **Wish & Goal Tracking**: Create, categorize, and update bucket list items and personal goals.
 * **Interactive Dashboard**: Real-time progress tracking, point metrics, and recent memory logs.
