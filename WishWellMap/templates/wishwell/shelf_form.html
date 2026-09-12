@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Edit Shelf | WishWellMap{% endblock %}
+
+{% block content %}
+<div class="container my-5" style="max-width: 600px;">
+    <div class="card shadow-sm p-4 border-0">
+        <h2 class="mb-4" style="color: #1b4332;">
+            {% if shelf %}Edit Shelf: {{ shelf.name }}{% else %}Create New Shelf{% endif %}
+        </h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Shelf Name</label>
+                {{ form.name }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Icon (Emoji)</label>
+                {{ form.icon }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Description</label>
+                {{ form.description }}
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'shelf_list' %}" class="btn btn-outline-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary" style="background-color: #1b4332; border-color: #1b4332;">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

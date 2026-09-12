@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} | WishWellMap{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-4 shadow-sm border-0">
+            <h3 class="fw-bold mb-4" style="color: #1b4332;">{{ title }}</h3>
+            
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    Please correct the errors below before submitting.
+                </div>
+                {% endif %}
+
+                {{ form.as_p }}
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="{% url 'bucket_item_list' %}" class="btn btn-light">Cancel</a>
+                    {% if item %}
+                    <a href="{% url 'delete_bucket_item' item.id %}" class="btn btn-outline-danger me-auto">Delete Goal</a>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Memories Scrapbook | WishWellMap{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">My Memories Scrapbook 📸</h2>
+
+<div class="row g-4">
+    {% for memory in memories %}
+    <div class="col-md-6">
+        <div class="card p-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="fw-bold mb-0">{{ memory.bucket_item.title }}</h5>
+                <span>{{ memory.get_mood_display }}</span>
+            </div>
+            <small class="text-muted mb-2">Completed on {{ memory.completion_date }}</small>
+            <p>{{ memory.story }}</p>
+            
+            <div class="row g-2 mt-2">
+                {% for photo in memory.photos.all %}
+                <div class="col-4">
+                    <img src="{{ photo.image.url }}" class="img-fluid rounded" style="height: 100px; width: 100%; object-fit: cover;">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-muted">No memories created yet. Complete a dream to unlock memory scrapbooks!</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | WishWellMap{% endblock %}
+
+{% block content %}
+<!-- Welcome Banner -->
+<div class="row g-4 mb-4">
+    <div class="col-md-12">
+        <div class="card bg-primary text-white p-4 shadow-sm" style="background: linear-gradient(135deg, #2d6a4f, #1b4332) !important;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="text-white mb-1">Welcome back, {{ user.first_name|default:user.username }} 👋</h2>
+                    <!-- Normal text weight, 90% white brightness (10% lighter/softer than stark white) -->
+                    <p class="mb-0" style="color: rgba(255, 255, 255, 0.9); font-weight: normal;">
+                        Wish Level: <span style="color: rgba(255, 255, 255, 0.9);">{{ flow.level_info.icon }} {{ flow.level_info.level }}</span>
+                    </p>
+                </div>
+                <div class="text-end">
+                    <h1 class="display-5 fw-bold mb-0 text-white">{{ flow.points }}</h1>
+                    <!-- Normal text weight, 90% white brightness -->
+                    <small style="color: rgba(255, 255, 255, 0.9); font-weight: normal;">Wish Points</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Quote Banner (Darkest Pink & Blue/Purple Mixed Color) -->
+{% if quote %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card p-3 text-center bg-white border-0 shadow-sm">
+            <p class="mb-0 quote-text">✨ <em>"{{ quote }}"</em></p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Stats Cards (Clickable & Interactive Counter Cards) -->
+<div class="row g-4 mb-4 text-center">
+    <!-- 1. Total Dreams Card -->
+    <div class="col-md-4">
+        <a href="{% url 'bucket_item_list' %}" class="text-decoration-none">
+            <div class="card p-3 shadow-sm stat-card h-100">
+                <h3 class="fw-bold display-6 mb-1" style="color: #2d6a4f;">{{ total_items }}</h3>
+                <span class="text-muted fw-semibold">Total Dreams</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- 2. Completed Dreams Card -->
+    <div class="col-md-4">
+        <a href="{% url 'bucket_item_list' %}?status=completed" class="text-decoration-none">
+            <div class="card p-3 shadow-sm stat-card h-100">
+                <h3 class="fw-bold display-6 mb-1" style="color: #2d6a4f;">{{ completed_items }}</h3>
+                <span class="text-muted fw-semibold">Completed</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- 3. Memories Saved Card -->
+    <div class="col-md-4">
+        <a href="{% url 'memories_album' %}" class="text-decoration-none">
+            <div class="card p-3 shadow-sm stat-card h-100">
+                <h3 class="fw-bold display-6 mb-1" style="color: #2d6a4f;">{{ memories_count }}</h3>
+                <span class="text-muted fw-semibold">Memories Saved</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Upcoming Plans & Recent Memories -->
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold my-0" style="color: #1b4332;">Upcoming Plans</h5>
+                <a href="{% url 'add_bucket_item' %}" class="btn btn-sm btn-primary">+ Add Dream</a>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for plan in upcoming_plans %}
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <div>
+                        <strong>{{ plan.title }}</strong><br>
+                        <small class="text-muted">{{ plan.target_date }}</small>
+                    </div>
+                    <span class="badge bg-success">{{ plan.get_status_display }}</span>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted px-0">No upcoming plans set.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+            <h5 class="fw-bold mb-3" style="color: #1b4332;">Recent Memories</h5>
+            {% for memory in recent_memories %}
+            <div class="mb-3 border-bottom pb-2">
+                <h6>{{ memory.bucket_item.title }} {{ memory.get_mood_display }}</h6>
+                <p class="text-muted small mb-1">{{ memory.story|truncatewords:15 }}</p>
+                <small style="color: #2d6a4f;">{{ memory.completion_date }}</small>
+            </div>
+            {% empty %}
+            <p class="text-muted">No memories recorded yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+/* Smooth Lift Effect for Interactive Stat Cards */
+.stat-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12) !important;
+}
+</style>
+{% endblock %}

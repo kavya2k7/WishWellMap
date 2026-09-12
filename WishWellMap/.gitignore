@@ -1,0 +1,16 @@
+# Local Database
+db.sqlite3
+
+# Environment & Secret Variables
+.env
+
+# Python Compiled Cache
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+
+# Collected Static Files
+staticfiles/

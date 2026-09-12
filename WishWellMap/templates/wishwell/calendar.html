@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}Calendar | WishWellMap{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<style>
+    /* Styling for calendar card container */
+    .fc-theme-standard .fc-scrollgrid {
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #ffffff;
+    }
+
+    /* Navigation Buttons (Today, Prev, Next) */
+    .fc .fc-button-primary {
+        background-color: var(--color-deep-teal, #005B5C) !important;
+        border-color: var(--color-deep-teal, #005B5C) !important;
+    }
+
+    .fc .fc-button-primary:hover {
+        background-color: var(--color-dark-navy, #001F3F) !important;
+        border-color: var(--color-dark-navy, #001F3F) !important;
+    }
+
+    /* Day Headers and Numbers in Rosewood/Rose Pink */
+    .fc .fc-col-header-cell-cushion,
+    .fc .fc-daygrid-day-number {
+        color: #C57B8A !important;
+        text-decoration: none !important;
+        font-weight: 600;
+    }
+
+    /* Highlight Today's Cell Softly */
+    .fc .fc-day-today {
+        background-color: rgba(197, 123, 138, 0.1) !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4" style="color: #001F3F;">Journey Calendar 📅</h2>
+<div class="card p-4 shadow-sm">
+    <div id="calendar"></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: "{% url 'calendar_events_api' %}",
+            
+            /* FullCalendar Event Colors */
+            eventBackgroundColor: '#C57B8A', // Soft Rose Pink
+            eventBorderColor: '#C57B8A',
+            eventTextColor: '#ffffff',
+            
+            /* Apply background colors returned by your Django API */
+            eventDidMount: function(info) {
+                if (info.event.backgroundColor) {
+                    info.el.style.backgroundColor = info.event.backgroundColor;
+                    info.el.style.borderColor = info.event.backgroundColor;
+                }
+            }
+        });
+        calendar.render();
+    });
+</script>
+{% endblock %}

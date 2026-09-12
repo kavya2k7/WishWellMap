@@ -1,0 +1,1 @@
+web: gunicorn WishWellMap.wsgi --log-file -
