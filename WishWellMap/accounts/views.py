@@ -51,3 +51,19 @@ def delete_account(request):
         user.delete()  # Deletes user and cascades to all their shelves, items, and memories
         return redirect('landing')
     return render(request, 'accounts/delete_account_confirm.html')
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from django.contrib import messages
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request)
+        user.delete()  # Deletes user and cascades to all linked data
+        messages.success(request, "Your account has been successfully deleted.")
+        return redirect('login')
+    
+    return render(request, 'accounts/delete_account_confirm.html')

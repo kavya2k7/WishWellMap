@@ -38,9 +38,15 @@
     {% for item in items %}
     <div class="col-md-4">
         <div class="card h-100 shadow-sm border-0 overflow-hidden">
-            <!-- Image Block -->
-            {% if item.image %}
-            <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 180px; object-fit: cover;">
+            <!-- Image Block with Fallback Handling -->
+            {% if item.cover_image %}
+                <img src="{{ item.cover_image.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 180px; object-fit: cover;">
+            {% elif item.image %}
+                <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 180px; object-fit: cover;">
+            {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 180px;">
+                    <span class="text-muted">✨ {{ item.get_status_display }}</span>
+                </div>
             {% endif %}
             
             <div class="card-body d-flex flex-column">
