@@ -28,6 +28,13 @@
     <p class="text-muted">No memories created yet. Complete a dream to unlock memory scrapbooks!</p>
     {% endfor %}
 </div>
+<!-- Bottom-Left Fixed/Positioned Delete Profile Button -->
+<div style="position: fixed; bottom: 20px; left: 20px; z-index: 1000;">
+    <a href="{% url 'delete_account' %}" 
+       style="background-color: #dc3545; color: white; padding: 10px 18px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); display: inline-block;">
+       Delete Profile
+    </a>
+</div>
 {% endblock %}
 
 
